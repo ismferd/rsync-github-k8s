@@ -2,7 +2,7 @@
 
 set -eu
 
-
+echo $1
 echo ${NAMESPACE}
 echo ${APP}
 

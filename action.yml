@@ -13,6 +13,10 @@ inputs:
   dest_dir:
     description: 'the name of your dest folder'
     required: true
+  kubeconfig :
+    description: 'the name of your dest folder'
+    required: false
+    default: '../../.kube/config'
 
 outputs:
   time: # id of output
@@ -25,3 +29,4 @@ runs:
     - ${{ inputs.app }}
     - ${{ inputs.source_dir }}
     - ${{ inputs.dest_dir }}
+    - ${{ inputs.kubeconfig }}

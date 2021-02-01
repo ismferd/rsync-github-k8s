@@ -5,6 +5,13 @@ FROM alpine:3.10
 COPY entrypoint.sh /entrypoint.sh
 COPY krsync /usr/local/bin/krsync
 RUN chmod +x /usr/local/bin/krsync
+RUN apk add --no-cache \
+        python3 \
+        py3-pip \
+    && pip3 install --upgrade pip \
+    && pip3 install \
+        awscli \
+    && rm -rf /var/cache/apk/*
 RUN apk add  curl
 RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
 RUN chmod +x ./kubectl

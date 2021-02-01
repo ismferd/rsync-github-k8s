@@ -13,7 +13,7 @@ inputs:
   dest_dir:
     description: 'the name of your dest folder'
     required: true
-  kubeconfig :
+  kubeconfig:
     description: 'the name of your dest folder'
     required: false
     default: '/github/home'
@@ -21,6 +21,7 @@ inputs:
 outputs:
   time: # id of output
     description: 'The time we greeted you'
+
 runs:
   using: 'docker'
   image: 'Dockerfile'

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 if [ -z "$KRSYNC_STARTED" ]; then
     export KRSYNC_STARTED=true

@@ -4,7 +4,7 @@ FROM alpine:3.10
 # Copies your code file from your action repository to the filesystem path `/` of the container
 COPY entrypoint.sh /entrypoint.sh
 COPY krsync /usr/local/bin/krsync
-RUN chmod +x /usr/local/bin/krsync
+RUN chmod 777 /usr/local/bin/krsync
 RUN apk add --no-cache \
         python3 \
         py3-pip \

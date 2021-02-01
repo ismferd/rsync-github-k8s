@@ -23,5 +23,5 @@ runs:
   args:
     - ${{ inputs.namespace }}
     - ${{ inputs.app }}
-    - ${{ source_dir.app }}
-    - ${{ dest_dir.app }}
+    - ${{ inputs.source_dir }}
+    - ${{ inputs.dest_dir }}

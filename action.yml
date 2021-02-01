@@ -16,7 +16,7 @@ inputs:
   kubeconfig :
     description: 'the name of your dest folder'
     required: false
-    default: '../../.kube/config'
+    default: '/github/home'
 
 outputs:
   time: # id of output

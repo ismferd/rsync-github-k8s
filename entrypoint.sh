@@ -2,14 +2,6 @@
 
 set -eu
 
-NAMESPACE=$1
-APP=$2
-SOURCE_DIR=$3
-DEST_DIR=$4
-KUBECONFIG=$5
-
-echo $HOME
-ls -la
 export KUBECONFIG=$KUBECONFIG/.kube/config
 echo $NAMESPACE
 echo $APP

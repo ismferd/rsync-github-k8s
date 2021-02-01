@@ -1,10 +1,16 @@
-name: 'Hello World'
-description: 'Greet someone and record the time'
+name: 'ksync'
+description: 'Syncs files via rsync to pods'
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  namespace:
+    description: 'the namespaces where you ms lives'
     required: true
-    default: 'World'
+  app:
+    description: 'the name of your app selector'
+    required: true
+  dir:
+    description: 'the name of your app selector'
+    required: true
+
 outputs:
   time: # id of output
     description: 'The time we greeted you'
@@ -12,4 +18,6 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.who-to-greet }}
+    - ${{ inputs.namespace }}
+    - ${{ inputs.app }}
+    - ${{ dir.app }}

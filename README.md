@@ -1,23 +1,40 @@
-# Hello world docker action
+# kryncer
 
-This action prints "Hello World" to the log or "Hello" + the name of a person to greet. To learn how this action was built, see "[Creating a Docker container action](https://help.github.com/en/articles/creating-a-docker-container-action)" in the GitHub Help documentation.
+This action sync github repository with your pods 
+
+## Requirements
+
+- Install `kubectl` in your workflow.
+- Update kubeconfig file allowing commands from your workflow.
 
 ## Inputs
 
-### `who-to-greet`
+### `namespace`
 
-**Required** The name of the person to greet. Default `"World"`.
+**Required** The name of the namespaces where reside your app.
 
-## Outputs
+### `app`
 
-### `time`
+**Required** The the name of your app  which should map with the app selector in k8s.
 
-The time we greeted you.
+### `source_dir`
+
+**Required** The name of your repo source folder.
+
+### `dest_dir`
+
+**Required** The name of your repo dest folder.
+
+
 
 ## Example usage
 
 ```yaml
-uses: actions/hello-world-docker-action@master
-with:
-  who-to-greet: 'Mona the Octocat'
+      - name: Syncimg
+        uses: ismferd/rsync-github-k8s@master
+        env:
+          namespace: ${{ secrets.PROJECT }}
+          app: ${{ secrets.renderservice }}
+          source_dir: .git/*
+          dest_dir: /opt/foo/bar
 ```

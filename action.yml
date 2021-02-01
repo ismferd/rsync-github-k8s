@@ -7,8 +7,11 @@ inputs:
   app:
     description: 'the name of your app selector'
     required: true
-  dir:
-    description: 'the name of your app selector'
+  source_dir:
+    description: 'the name of your repo folder'
+    required: true
+  dest_dir:
+    description: 'the name of your dest folder'
     required: true
 
 outputs:
@@ -20,4 +23,5 @@ runs:
   args:
     - ${{ inputs.namespace }}
     - ${{ inputs.app }}
-    - ${{ dir.app }}
+    - ${{ source_dir.app }}
+    - ${{ dest_dir.app }}

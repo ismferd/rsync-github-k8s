@@ -1,23 +1,72 @@
-# Hello world docker action
+# kryncer
 
-This action prints "Hello World" to the log or "Hello" + the name of a person to greet. To learn how this action was built, see "[Creating a Docker container action](https://help.github.com/en/articles/creating-a-docker-container-action)" in the GitHub Help documentation.
+This action sync github repository with your pods.
+
+The goal of the action is to be able to do a rsync between my github repository and EFS mounted in a pod which runs in EKS Fargate.
 
 ## Inputs
 
-### `who-to-greet`
+### `cluster`
 
-**Required** The name of the person to greet. Default `"World"`.
+**Required** The cluster where you are going to operate.
 
-## Outputs
+### `namespace`
 
-### `time`
+**Required** The name of the namespaces where reside your app.
 
-The time we greeted you.
+### `app`
+
+**Required** The the name of your app  which should map with the app selector in k8s.
+
+### `source_dir`
+
+**Required** The name of your repo source folder.
+
+### `dest_dir`
+
+**Required** The name of your repo dest folder.
 
 ## Example usage
 
 ```yaml
-uses: actions/hello-world-docker-action@master
-with:
-  who-to-greet: 'Mona the Octocat'
+name: Merge to master CI
+
+on:
+  push:
+    branches:
+      - foo
+
+env:
+  CLUSTER: my-cluster
+  NAMESPACE: foobar
+  APP: app
+  ENVIRONMENT: env
+  ACCOUNT_ID: 111122223333
+
+jobs:
+  transfer_build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Assume DEV Role
+        uses: youyo/awscredswrap@master
+        with:
+          role_arn: arn:aws:iam::${{ env.ACCOUNT_ID}}:role/my_role
+          duration_seconds: 1200
+          role_session_name: my_role
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: 'eu-central-1'
+
+      - name: Syncing
+        uses: ismferd/rsync-github-k8s@main
+        with:
+          cluster: ${{ env.CLUSTER }}
+          namespace: ${{ env.NAMESPACE }}
+          app: ${{ env.APP }}
+          source_dir: foo
+          dest_dir: bar
 ```

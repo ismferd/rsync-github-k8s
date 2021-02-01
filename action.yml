@@ -1,10 +1,22 @@
-name: 'Hello World'
-description: 'Greet someone and record the time'
+name: 'ksync'
+description: 'Syncs files via rsync to pods'
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  cluster:
+    description: 'EKS Fargate cluster name'
     required: true
-    default: 'World'
+  namespace:
+    description: 'the namespaces where you ms lives'
+    required: true
+  app:
+    description: 'the name of your app selector'
+    required: true
+  source_dir:
+    description: 'the name of your repo folder'
+    required: true
+  dest_dir:
+    description: 'the name of your dest folder'
+    required: true
+
 outputs:
   time: # id of output
     description: 'The time we greeted you'
@@ -12,4 +24,8 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.who-to-greet }}
+    - ${{ inputs.cluster }}
+    - ${{ inputs.namespace }}
+    - ${{ inputs.app }}
+    - ${{ inputs.source_dir }}
+    - ${{ inputs.dest_dir }}

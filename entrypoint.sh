@@ -2,14 +2,10 @@
 
 set -eu
 
+echo ${NAMESPACE}
+echo ${APP}
 
-echo $NAMESPACE
-echo $APP
-echo $SOURCE_DIR
-echo $DEST_DIR
-echo $KUBECONFIG
-ls -la
-export KUBECONFIG=$KUBECONFIG/.kube/config
+export KUBECONFIG=${KUBECONFIG}/.kube/config
 
 
 POD_NAME=$(kubectl get pods -n ${NAMESPACE} -l app=${APP} | grep -v NAME | cut -d' ' -f1 | head -n 1)

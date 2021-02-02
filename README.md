@@ -1,6 +1,8 @@
 # kryncer
 
-This action sync github repository with your pods 
+This action sync github repository with your pods.
+
+The goal of the action is to be able to do a rsync between my github repository and EFS mounted in a pod which runs in EKS Fargate.
 
 ## Inputs
 

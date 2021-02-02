@@ -2,12 +2,11 @@
 
 This action sync github repository with your pods 
 
-## Requirements
-
-- Install `kubectl` in your workflow.
-- Update kubeconfig file allowing commands from your workflow.
-
 ## Inputs
+
+### `cluster`
+
+**Required** The cluster where you are going to operate.
 
 ### `namespace`
 
@@ -25,16 +24,47 @@ This action sync github repository with your pods
 
 **Required** The name of your repo dest folder.
 
-
-
 ## Example usage
 
 ```yaml
-      - name: Syncimg
-        uses: ismferd/rsync-github-k8s@master
+name: Merge to master CI
+
+on:
+  push:
+    branches:
+      - foo
+
+env:
+  CLUSTER: my-cluster
+  NAMESPACE: foobar
+  APP: app
+  ENVIRONMENT: env
+  ACCOUNT_ID: 111122223333
+
+jobs:
+  transfer_build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Assume DEV Role
+        uses: youyo/awscredswrap@master
+        with:
+          role_arn: arn:aws:iam::${{ env.ACCOUNT_ID}}:role/my_role
+          duration_seconds: 1200
+          role_session_name: my_role
         env:
-          namespace: ${{ secrets.PROJECT }}
-          app: ${{ secrets.renderservice }}
-          source_dir: .git/*
-          dest_dir: /opt/foo/bar
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: 'eu-central-1'
+
+      - name: Syncing
+        uses: ismferd/rsync-github-k8s@main
+        with:
+          cluster: ${{ env.CLUSTER }}
+          namespace: ${{ env.NAMESPACE }}
+          app: ${{ env.APP }}
+          source_dir: foo
+          dest_dir: bar
 ```

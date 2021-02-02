@@ -1,4 +1,4 @@
-# kryncer
+# krsyncer
 
 This action sync github repository with your pods.
 

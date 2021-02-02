@@ -1,6 +1,9 @@
 name: 'ksync'
 description: 'Syncs files via rsync to pods'
 inputs:
+  cluster:
+    description: 'EKS Fargate cluster name'
+    required: true
   namespace:
     description: 'the namespaces where you ms lives'
     required: true
@@ -25,6 +28,7 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
+    - ${{ inputs.cluster }}
     - ${{ inputs.namespace }}
     - ${{ inputs.app }}
     - ${{ inputs.source_dir }}
